@@ -1,0 +1,7 @@
+[project]
+name = "black-hole-simulation"
+version = "0.0.0"
+description = "A basic black hole simulation written in Python"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
