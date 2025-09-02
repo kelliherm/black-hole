@@ -1,19 +1,25 @@
 import pygame
 
+from constants import *
+
+M = 28e27 # Mass in kg
+
 class BlackHole:
-    def __init__(self, screen, location, mass):
+    def __init__(self,
+                 screen,
+                 pos: pygame.math.Vector2,
+                 velo: pygame.math.Vector2,
+                 color: str="red"):
+        
         self.screen = screen
+        self.pos = pos
+        self.velo = velo
+        self.color = color
 
-        self.x = location[0]
-        self.y = location[1]
-
-        M = 28e27
-        G = 6.67430e-11
-        c = 299792458
-
-        self.r = (2 * G * M) / (c ** 2)
-
-        pygame.draw.circle(self.screen, "red", (400, 300), self.r)
+        self.radius = (2 * G * M) / (c ** 2) # Schwarzschild radius
     
     def update(self):
-        pygame.draw.circle(self.screen, "red", (self.x, self.y), self.r)
+        self.pos = self.pos + self.velo
+    
+    def render(self):
+        pygame.draw.circle(self.screen, self.color, self.pos, self.radius)
