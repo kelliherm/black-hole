@@ -3,37 +3,44 @@ import pygame
 from black_hole import BlackHole
 from ray import Ray
 
-pygame.init()
-width = 800
-height = 600
-screen = pygame.display.set_mode((width, height))
 
+pygame.init()
+WIDTH = 800
+HEIGHT = 600
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
-sim_over = False
+loop = True
 
-black_hole = BlackHole(screen, (400, 300), 100)
+black_hole = BlackHole(screen,
+                       pygame.math.Vector2(WIDTH / 2, HEIGHT / 2),
+                       pygame.math.Vector2(0, 0),)
 
 n = 10
-rays = [Ray(screen, (0, (height / (2 * n)) + i * (height / n)), (1, 0), black_hole) for i in range(n)]
+rays = [Ray(screen,
+            pygame.math.Vector2(0, (HEIGHT / (2 * n)) + i * (HEIGHT / n)),
+            pygame.math.Vector2(1, 0),
+            black_hole)
+            for i in range(n)]
 
-while not sim_over:
+while loop:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            sim_over = True
-
-    # RENDER YOUR GAME HERE
+            loop = False
 
     screen.fill("black")
 
     black_hole.update()
 
     for ray in rays:
-        ray.update()
+        ray.update_cartesian()
 
+    black_hole.render()
+    for ray in rays:
+        ray.render()
 
     pygame.display.flip()
-
     clock.tick(300)
 
 pygame.quit()
