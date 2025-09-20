@@ -11,7 +11,8 @@ HEIGHT = 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
-loop = True
+running = True
+paused = False
 
 black_hole = BlackHole(screen,
                        pygame.math.Vector2(WIDTH / 2, HEIGHT / 2),
@@ -24,10 +25,13 @@ rays = [Ray(screen,
             black_hole)
             for i in range(n)]
 
-while loop:
+while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            loop = False
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
 
     screen.fill("black")
 
